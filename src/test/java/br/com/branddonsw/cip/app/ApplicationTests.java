@@ -1,4 +1,4 @@
-package br.com.branddonsw.cip.br.com.branddonsw.cip.app;
+package br.com.branddonsw.cip.app;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
