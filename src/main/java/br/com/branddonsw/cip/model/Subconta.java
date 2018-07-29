@@ -1,13 +1,19 @@
 package br.com.branddonsw.cip.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import br.com.branddonsw.cip.model.base.BaseModelId;
 
@@ -17,15 +23,16 @@ public class Subconta extends BaseModelId {
 	
 	private static final long serialVersionUID = 758804948289589272L;
 	
+	@Temporal(value=TemporalType.DATE)
 	private Calendar aniversario;
 	private BigDecimal saldo;
 	
-	@OneToMany(mappedBy="subconta")
-	private List<Aplicacao> aplicacoes;
-	@OneToMany(mappedBy="subconta")
-	private List<Resgate> resgates;
-	@OneToMany(mappedBy="subconta")
-	private List<Rendimento> rendimentos;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_conta", nullable=false)
+	private Conta conta;
+	
+	@OneToMany
+	private List<Movimentacao> movimentacoes;
 	
 	public Subconta() {
 		super();
@@ -51,32 +58,46 @@ public class Subconta extends BaseModelId {
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
-	public List<Aplicacao> getAplicacoes() {
-		if (aplicacoes != null) {
+	
+	// auxiliares
+	public List<Movimentacao> getAplicacoes() {
+		List<Movimentacao> aplicacoes = null;
+		if (movimentacoes != null) {
+			aplicacoes = new ArrayList<Movimentacao>();
+			for (Movimentacao movto : movimentacoes) {
+				if (movto.isAplicacao()) {
+					aplicacoes.add(movto);
+				}
+			}
 			Collections.sort(aplicacoes);
 		}
 		return aplicacoes;
 	}
-	public void setAplicacoes(List<Aplicacao> aplicacoes) {
-		this.aplicacoes = aplicacoes;
-	}
-	public List<Resgate> getResgates() {
-		if (resgates != null) {
+	public List<Movimentacao> getResgates() {
+		List<Movimentacao> resgates = null;
+		if (movimentacoes != null) {
+			resgates = new ArrayList<Movimentacao>();
+			for (Movimentacao movto : movimentacoes) {
+				if (movto.isResgate()) {
+					resgates.add(movto);
+				}
+			}
 			Collections.sort(resgates);
 		}
 		return resgates;
 	}
-	public void setResgates(List<Resgate> resgates) {
-		this.resgates = resgates;
-	}
-	public List<Rendimento> getRendimentos() {
-		if (rendimentos != null) {
+	public List<Movimentacao> getRendimentos() {
+		List<Movimentacao> rendimentos = null;
+		if (movimentacoes != null) {
+			rendimentos = new ArrayList<Movimentacao>();
+			for (Movimentacao movto : movimentacoes) {
+				if (movto.isRendimento()) {
+					rendimentos.add(movto);
+				}
+			}
 			Collections.sort(rendimentos);
 		}
 		return rendimentos;
-	}
-	public void setRendimentos(List<Rendimento> rendimentos) {
-		this.rendimentos = rendimentos;
 	}
 	
 }

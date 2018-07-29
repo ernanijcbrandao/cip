@@ -3,12 +3,11 @@ package br.com.branddonsw.cip.model;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,25 +15,35 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.com.branddonsw.cip.model.base.BaseModelId;
+import br.com.branddonsw.cip.model.enums.TipoMovimentacaoEnumeraton;
 
 @Entity
 @Table(name="movimentacao", catalog="dbcip")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo", length = 1, discriminatorType = DiscriminatorType.STRING)
 public class Movimentacao extends BaseModelId implements Comparable<Movimentacao> {
 
 	private static final long serialVersionUID = 4017701786975258944L;
 	
+	@Column(nullable=false)
 	@Temporal(value=TemporalType.DATE)
 	private Calendar data;
+	
+	@Column(nullable=false)
 	private BigDecimal valor;
 	
-	private String tipo;
-	
+	@Column(nullable=false)
 	private String chave;
+	
+	@Enumerated(value=EnumType.STRING)
+	private TipoMovimentacaoEnumeraton tipo;
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_subconta", nullable=false)
 	private Subconta subconta;
+	
+	@Column(name="saldo_base")
+	private BigDecimal saldoBase;
+	
+	private BigDecimal rendimento;
 	
 	public Movimentacao() {
 		super();
@@ -42,13 +51,13 @@ public class Movimentacao extends BaseModelId implements Comparable<Movimentacao
 	public Movimentacao(Long id) {
 		super(id);
 	}
-	public Movimentacao(Long id, Calendar data, BigDecimal valor, String tipo, Subconta subconta, String chave) {
+	public Movimentacao(Long id, Calendar data, BigDecimal valor, TipoMovimentacaoEnumeraton tipo, Subconta subconta, String chave) {
 		this(id);
 		this.data = data;
 		this.valor = valor;
-		this.tipo = tipo;
 		this.subconta = subconta;
 		this.chave = chave;
+		this.tipo = tipo;
 	}
 	
 	public Calendar getData() {
@@ -63,12 +72,6 @@ public class Movimentacao extends BaseModelId implements Comparable<Movimentacao
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
 	public Subconta getSubconta() {
 		return subconta;
 	}
@@ -80,6 +83,35 @@ public class Movimentacao extends BaseModelId implements Comparable<Movimentacao
 	}
 	public void setChave(String chave) {
 		this.chave = chave;
+	}
+	public TipoMovimentacaoEnumeraton getTipo() {
+		return tipo;
+	}
+	public void setTipo(TipoMovimentacaoEnumeraton tipo) {
+		this.tipo = tipo;
+	}
+	public BigDecimal getSaldoBase() {
+		return saldoBase;
+	}
+	public void setSaldoBase(BigDecimal saldoBase) {
+		this.saldoBase = saldoBase;
+	}
+	public BigDecimal getRendimento() {
+		return rendimento;
+	}
+	public void setRendimento(BigDecimal rendimento) {
+		this.rendimento = rendimento;
+	}
+	
+	// auxiliares
+	public boolean isAplicacao() {
+		return TipoMovimentacaoEnumeraton.APLICACAO.equals(this.tipo);
+	}
+	public boolean isResgate() {
+		return TipoMovimentacaoEnumeraton.RESGATE.equals(this.tipo);
+	}
+	public boolean isRendimento() {
+		return TipoMovimentacaoEnumeraton.RENDIMENTO.equals(this.tipo);
 	}
 	
 	@Override
