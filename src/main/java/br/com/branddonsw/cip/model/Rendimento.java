@@ -20,13 +20,13 @@ public class Rendimento extends Movimentacao {
 	public Rendimento() {
 		super();
 	}
-	public Rendimento(Long id, Calendar data, BigDecimal valor, TipoMovimentacaoEnumeraton tipo, Subconta subconta, String chave) {
+	public Rendimento(Long id, Calendar data, BigDecimal valor, String tipo, Subconta subconta, String chave) {
 		super(id, data, valor, tipo, subconta, chave);
 	}
 	public Rendimento(Long id) {
 		super(id);
 	}
-	public Rendimento(Long id, Calendar data, BigDecimal valor, TipoMovimentacaoEnumeraton tipo, Subconta subconta, String chave,
+	public Rendimento(Long id, Calendar data, BigDecimal valor, String tipo, Subconta subconta, String chave,
 			BigDecimal saldoBase, BigDecimal rendimento) {
 		this(id, data, valor, tipo, subconta, chave);
 		this.saldoBase = saldoBase;

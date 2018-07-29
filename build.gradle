@@ -37,7 +37,7 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	
 	
-	runtime('mysql:mysql-connector-java')
-	runtime('org.postgresql:postgresql')
+	compile('mysql:mysql-connector-java')
+	//runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

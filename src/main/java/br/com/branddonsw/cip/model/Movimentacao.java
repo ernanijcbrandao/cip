@@ -31,8 +31,9 @@ public class Movimentacao extends BaseModelId implements Comparable<Movimentacao
 	@Temporal(value=TemporalType.DATE)
 	private Calendar data;
 	private BigDecimal valor;
-	@Enumerated(value=EnumType.STRING)
-	private TipoMovimentacaoEnumeraton tipo;
+	
+	private String tipo;
+	
 	private String chave;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_subconta", nullable=false)
@@ -44,7 +45,7 @@ public class Movimentacao extends BaseModelId implements Comparable<Movimentacao
 	public Movimentacao(Long id) {
 		super(id);
 	}
-	public Movimentacao(Long id, Calendar data, BigDecimal valor, TipoMovimentacaoEnumeraton tipo, Subconta subconta, String chave) {
+	public Movimentacao(Long id, Calendar data, BigDecimal valor, String tipo, Subconta subconta, String chave) {
 		this(id);
 		this.data = data;
 		this.valor = valor;
@@ -65,10 +66,10 @@ public class Movimentacao extends BaseModelId implements Comparable<Movimentacao
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
-	public TipoMovimentacaoEnumeraton getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
-	public void setTipo(TipoMovimentacaoEnumeraton tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 	public Subconta getSubconta() {
