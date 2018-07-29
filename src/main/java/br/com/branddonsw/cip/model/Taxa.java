@@ -10,12 +10,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.com.branddonsw.cip.model.base.BaseModelIdAtivo;
+import br.com.branddonsw.cip.model.base.BaseModelId;
 import br.com.branddonsw.cip.model.enums.TipoInvestimentoEnumeration;
 
 @Entity
 @Table(name="taxas", catalog="dbcip")
-public class Taxa extends BaseModelIdAtivo {
+public class Taxa extends BaseModelId {
 
 	private static final long serialVersionUID = 8648813645871388525L;
 	
@@ -30,14 +30,11 @@ public class Taxa extends BaseModelIdAtivo {
 	public Taxa() {
 		super();
 	}
-	public Taxa(Long id, Boolean ativo) {
-		super(id, ativo);
-	}
 	public Taxa(Long id) {
 		super(id);
 	}
-	public Taxa(Long id, Boolean ativo, TipoInvestimentoEnumeration taxa, Calendar data, BigDecimal valor) {
-		this(id, ativo);
+	public Taxa(Long id, TipoInvestimentoEnumeration taxa, Calendar data, BigDecimal valor) {
+		this(id);
 		this.taxa = taxa;
 		this.data = data;
 		this.valor = valor;

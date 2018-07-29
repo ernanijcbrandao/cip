@@ -6,8 +6,6 @@ import java.util.Calendar;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -18,7 +16,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.com.branddonsw.cip.model.base.BaseModelId;
-import br.com.branddonsw.cip.model.enums.TipoMovimentacaoEnumeraton;
 
 @Entity
 @Table(name="movimentacao", catalog="dbcip")
